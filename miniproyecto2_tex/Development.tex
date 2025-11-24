@@ -1,0 +1,557 @@
+\newpage
+%#####################################################
+\section{Actividad n°1: TIC is Among Us }
+Esta primera actividad consiste en diseñar, implementar y probar un sistema de juego
+colaborativo-competitivo basado en la comunicación entre dispositivos y minijuegos locales, ¡al
+estilo de Among Us!
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.4\textwidth]{Img/amongus.png}
+    \label{fig:amongus}
+\end{figure}
+\\
+El proyecto consiste en la creación de un entorno modular que permita la interacción entre
+un host central (Raspberry Pi profesor) y varios jugadores conectados (Raspberry Pi alumnos).
+Cada jugador ejecutará distintos minijuegos físicos o virtuales, generando registros que serán
+monitoreados por el host para determinar el estado del juego, las puntuaciones y supervivencia de
+los participantes.
+\\
+El desarrollo se realizará de forma incremental, de modo que cada ítem se pueda probar de
+manera local y aislada, culminando con una etapa final de integración y testeo en red.
+\\
+La estructura del juego se dividirá en cuatro fases principales:
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\textwidth]{Img/tabla.png}
+    \label{fig:tabla}
+\end{figure}
+
+\break
+\subsection{Ítem 1}
+El objetivo de este ítem es diseñar los minijuegos que se utilizarán en las rondas 1 y 2,
+implementando al menos 2 minijuegos por consola y 2 minijuegos basados en sensores físicos con
+una duración máxima de 15 segundos.
+\begin{enumerate}
+    \item El desarrollo de los minijuegos queda a su libre elección, pero los minijuegos basados en sensores deben incluir al menos uno de los siguientes módulos de su kit de 45 Sensores:
+    \item Sensor DHT11 de temperatura y humedad (KY-015). Documentación de referencia: KY-015 Combi-Sensor (temperature and humidity) - SensorKit
+    \item Sensor HC-SR04 de distancia por ultrasonido (KY-050). Documentación de referencia: KY-050 Ultrasonic distance sensor - SensorKit
+    \item Módulo Joystick (KY-023). Documentación de referencia: KY-023 Joystick (eje X-Y) - SensorKit
+\end{enumerate}
+Nota: Los diagramas de conexión y códigos de prueba se encuentran en sus respectivos
+Anexos.
+
+Cada minijuego debe generar un logging local de eventos siguiendo un formato unificado
+que el host central pueda interpretar posteriormente, tomando como base la siguiente estructura:
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Img/code1.png}
+    \label{fig:code1}
+\end{figure}
+
+Cada registro del log representa un evento individual de los jugadores, correspondiente a
+una ejecución o resultado obtenido en un minijuego durante las distintas rondas. Para mayores
+referencias sobre qué indica cada campo, ver Anexo “Datos de registro”.
+
+\subsection{Ítem 2}
+Implementar un sistema de comunicación entre un jugador y el host central que permita
+establecer la conexión inicial del juego mediante una estrategia de acuse de recibo (ACK).
+Este ítem debe implementarse de manera local, simulando tanto el host como el jugador
+
+Durante la etapa del Lobby, se darán a lugar las siguientes acciones:
+\begin{enumerate}
+    \item Cada jugador deberá generar una entrada en su archivo de logging local de eventos (el mismo utilizado para los minijuegos), incorporando su identificador (“PlayerID”) y un indicador del inicio de conexión (“Action”: “Join”).
+    \item El archivo de logging deberá ser transferido al host central mediante el protocolo SSH.
+    \item El host central recibirá el registro del jugador (por ejemplo, "player$\_$events.log") y emitirá su confirmación de aceptación mediante su propio archivo de logging ("game$\_$status.log"), registrando el evento con el campo “Action“: “Accepted“.
+    \item Una vez recibida la confirmación de conexión, el jugador deberá actualizar su estado local registrando el evento “Action“: "Ready", indicando que está disponible para iniciar la partida.
+\end{enumerate}
+
+Para comprender mejor el flujo de esta operación, a continuación, se muestra el contenido de
+ejemplo de los logging tanto del host central como del jugador:
+
+\break
+\textbf{Estructura de registro en el host central (game$\_$status.log)}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Img/code2.png}
+    \label{fig:code2}
+\end{figure}
+
+\textbf{Estructura de registro en el jugador (player$\_$events.log)}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Img/code3.png}
+    \label{fig:code3}
+\end{figure}
+
+\subsection{Ítem 3}
+Integrar los minijuegos desarrollados en el Ítem 1.1 dentro de un ciclo de juego que contemple
+las etapas Lobby, Ronda 1 y Ronda 2, implementando un sistema de sabotaje pasivo controlado por
+el host central.
+
+Durante las rondas del juego, el host central tendrá la función de:
+\begin{itemize}
+    \item Seleccionar aleatoriamente los minijuegos que cada jugador deberá ejecutar.
+    \item Enviar los registros correspondientes al minijuego activo y, en ocasiones, instrucciones de sabotaje.
+    \item Registrar tanto los resultados de los minijuegos como los sabotajes aplicados en su propio archivo de logging (game$\_$status.log).
+\end{itemize}
+
+El jugador, por su parte, deberá:
+\begin{itemize}
+    \item Recibir las indicaciones del minijuego actual desde el host.
+    \item Ejecutar el minijuego asignado y registrar su resultado localmente (player$\_$events.log).
+    \item Aplicar los efectos de sabotaje en caso de ser notificado por el host.
+\end{itemize}
+
+\break
+En relación con las rondas, cada una estará compuesta por tres minijuegos elegidos aleatoriamente por el host. El flujo general es el siguiente:
+\begin{enumerate}
+    \item \textbf{Inicio de ronda:} El campo “stage” de los logs cambia a “R1” o “R2”, según corresponda con la ronda actual.
+    \item \textbf{Selección de minijuego:} el host central escoge aleatoriamente el próximo minijuego, y lo registra en el “game$\_$status.log” asignando un “GameID” y modificando el campo “Action” a “Assign”.
+    \item \textbf{Ejecución:} el jugador lee el registro del host central, ejecuta el minijuego y guarda su resultado.
+    \item \textbf{Sabotaje:} el host central genera un evento de sabotaje de forma aleatoria, y lo registra en el “game$\_$status.log” modificando el campo “Action” a “Sabotage”, y asignando los campos “Effect” y “Value” según el tipo de sabotaje asignado.
+    \item \textbf{Confirmación:} si el jugador lee un registro de sabotaje, aplica el efecto del sabotaje en el minijuego siguiente y lo deja reflejado en su próximo registro local.
+\end{enumerate}
+
+Para mayores referencias sobre qué tipos de sabotajes deben aplicarse, ver Anexo “Tipos de Sabotaje”.
+
+Para comprender mejor el flujo de los minijuegos y posibles sabotajes, a continuación, se muestra el contenido de ejemplo de los logging tanto del host central como del jugador:
+\textbf{Estructura de registro en el host central (game$\_$status.log)}
+
+\textbf{Estructura de registro en el jugador (player$\_$events.log)}
+
+\subsection{Ítem 4}
+Desarrollar e integrar la fase final del juego, en la cual el jugador debe mantener su vida por
+encima de cero durante un periodo de tiempo limitado. Para ello, implementen un minijuego extra con
+un botón pulsador, el cual enviará registros al host central cada 10 presiones consecutivas. El host
+central reducirá la vida del jugador progresivamente con el tiempo y la restaurará al detectar los
+eventos de pulsación.
+
+En relación con las rondas, esta etapa comparte la misma estructura base del sistema de logging
+utilizado anteriormente, pero adaptada a la dinámica de supervivencia:
+\begin{enumerate}
+    \item \textbf{Inicio de ronda:} El campo "stage" en los logs cambia a "Final", marcando el inicio de la etapa de supervivencia.
+    \item \textbf{Asignación inicial:} El host central crea el primer registro en su log (“game$\_$status.log”) con la vida inicial del cada jugador ("Life": 100), y luego inicia un contador con el tiempo de autodestrucción (por ejemplo, 2 minutos).
+    \item \textbf{Pérdida de vida por tiempo:} En intervalos regulares, el host central actualiza el valor de "Life" restando unidades según el tiempo transcurrido.
+    \item \textbf{Recuperación de vida por pulsación:} Cada vez que el jugador presione el botón 10 veces, se registra un evento “Action": "Recover" en su log (“player$\_$events.log”). El host central leerá este evento y aumentará la vida en un valor fijo (por ejemplo, +10 unidades).
+    \item \textbf{Finalización:} Si la vida del jugador llega a 0, el host genera un último registro con "Life": 0, indicando el término del juego. Si se cumple el tiempo máximo de simulación y un jugador mantiene su vida por sobre 0, se declara ganador. En caso de que varios jugadores sobrevivan la etapa final, se declara ganador al jugador que tenga más vida.
+\end{enumerate}
+
+\subsection{Solución}
+
+\subsubsection{Ítem 1}
+En este proyecto se desarrollaron cuatro mini juegos utilizando una Raspberry Pi: dos utilizan sensores físicos para interactuar con el jugador y los otros dos funcionan únicamente desde la terminal. Estos son:
+\begin{itemize}
+   \item \textbf{Equation Game}
+   
+    Este minijuego implementa una interfaz gráfica usando \textit{PyQt6}, donde se muestran las instrucciones, la ecuación generada aleatoriamente, un campo para escribir la respuesta, un botón para enviarla, un temporizador visible y una zona donde aparece el puntaje final. Todos estos elementos se organizan verticalmente mediante un \texttt{QVBoxLayout} y se estilizan con colores y tamaños de letra para mejorar la claridad visual.
+    
+    \textbf{Generación de la Ecuación}
+    El juego crea una ecuación lineal aleatoria de la forma $ax + b = c$, donde:
+    \begin{itemize}
+        \item $x$ es siempre un número entero entre $-9$ y $9$,
+        \item $a$ nunca es cero para asegurar que la ecuación tenga solución válida,
+        \item los valores se generan de manera que la solución sea siempre un entero.
+    \end{itemize}
+    El jugador dispone de $15$ segundos para ingresar su respuesta y presionar el botón \textit{Submit}. El programa verifica que la entrada sea numérica y luego la compara con la solución correcta.
+    
+    \textbf{Sistema de Puntaje}
+    El puntaje comienza en $100$ puntos.
+    Las deducciones inician únicamente si el jugador tarda más de $5$ segundos en contestar. A partir del segundo $6$, se descuentan $10$ puntos por cada segundo adicional, hasta un mínimo de $0$ puntos. Si el jugador responde rápido (antes de $6$ segundos), mantiene los $100$ puntos intactos.
+    
+    \textbf{Finalización del Juego}
+    El juego puede terminar de dos maneras:
+    \begin{itemize}
+        \item si el jugador ingresa la respuesta correcta, o
+        \item si el temporizador llega a cero.
+    \end{itemize}
+    En cualquiera de estos casos:
+    \begin{itemize}
+    \item se desactivan el cuadro de respuesta y el botón,
+    \item se muestra la solución correcta,
+    \item se detiene el temporizador,
+    \item se presenta el puntaje final,
+    \item y la ventana se cierra automáticamente después de dos segundos.
+    \end{itemize}
+    \break
+    De esta forma, el resultado final queda disponible para el módulo principal que ejecutó el minijuego.
+    
+    \begin{figure}[h!]
+    \centering
+
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Img/eq1.png}
+        \caption{Inicio del minijuego}
+        \label{eq1}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Img/eq2.png}
+        \caption{Final del minijuego}
+        \label{eq2}
+    \end{subfigure}
+
+    \end{figure}
+
+    \item \textbf{Memory Game}
+
+    Este minijuego consiste en un juego de memoria implementado con \textit{PyQt6}. La interfaz gráfica incluye un temporizador visible, un espacio donde se muestra la secuencia generada, un campo de texto para escribir la respuesta y dos botones: uno para iniciar la partida y otro para enviar la secuencia recordada. Todos los elementos se organizan verticalmente mediante un \texttt{QVBoxLayout} y se estilizan para mejorar la claridad visual.
+    
+    \textbf{Funcionamiento General}
+
+    El jugador dispone de un tiempo total de 15 segundos para intentar superar hasta 5 rondas.
+    La primera ronda comienza con una secuencia aleatoria de 4 caracteres compuestos por letras y números. En cada ronda siguiente, la longitud de la secuencia aumenta en un carácter, elevando la dificultad del juego.
+    La secuencia generada se muestra durante un segundo y luego se oculta automáticamente. En ese momento, el jugador debe escribir exactamente la misma secuencia en el cuadro de texto y presionar el botón correspondiente para validarla.
+    
+    \textbf{Sistema de Puntaje}
+
+    El sistema de puntos es directo:
+    \begin{itemize}
+        \item cada ronda superada otorga 20 puntos,
+        \item el puntaje máximo posible es 100 puntos,
+        \item si el jugador ingresa una secuencia incorrecta, la partida termina inmediatamente mostrando un mensaje de \textit{Game Over}.
+    \end{itemize}
+    \break
+    El juego también finaliza si el temporizador global llega a cero. En ese caso, se registran los puntos acumulados hasta ese momento.
+    
+    \begin{figure}[h!]
+    \centering
+
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Img/me1.png}
+        \caption{Inicio del minijuego}
+        \label{me1}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Img/me2.png}
+        \caption{Final del minijuego}
+        \label{me2}
+    \end{subfigure}
+
+    \end{figure}
+
+    \item \textbf{Balloon game}
+    
+    Este minijuego consiste en controlar un cursor en pantalla mediante un joystick analógico y reventar globos usando un botón físico conectado a una Raspberry Pi. El objetivo principal es evitar que alguno de los globos llegue a la parte inferior de la pantalla antes de ser reventado.
+    
+    \textbf{Hardware Utilizado}
+    \begin{itemize}
+        \item \textbf{ADS1115 (ADC) para el joystick:} Se leen los ejes X y Y desde los canales P0 y P1, obteniendo valores entre 0 y 65535 que se normalizan al rango 0–1. Estos valores se traducen en movimiento horizontal y vertical del cursor.
+        \item \textbf{Botón físico:} Un botón conectado al pin GPIO,17 permite ``reventar'' globos al presionarlo. Cada pulsación verifica si el cursor está intersectando un globo para eliminarlo.
+    \end{itemize}
+
+    \textbf{Reglas del Juego}
+    \begin{itemize}
+        \item \textbf{Movimiento:} El jugador controla un cuadrado blanco de 40,px utilizando el joystick analógico.
+        \item \textbf{Reventar globos:} Al presionar el botón físico se revisan colisiones entre el cursor y los globos. Los globos que colisionan desaparecen.
+        \item \textbf{Derrota:} El jugador pierde inmediatamente si un globo alcanza la parte inferior de la ventana (posición $y > 800$).
+        \item \textbf{Victoria:} El juego tiene una duración total de 10,segundos. Al finalizar, si no queda ningún globo en pantalla, el jugador gana; de lo contrario, pierde.
+    \end{itemize}
+
+    \break
+    \textbf{Curva de Dificultad}
+
+    Los globos aparecen inicialmente cada 800,ms. Cada vez que surge un nuevo globo, este intervalo se reduce en 20,ms hasta llegar a un mínimo de 250,ms. Esto genera un aumento progresivo de la dificultad, ya que con el tiempo los globos aparecen con mayor frecuencia.
+    \textbf{Interfaz Gráfica (PyQt6)}
+    La interfaz se dibuja utilizando \texttt{QPainter}, permitiendo animaciones fluidas a 60,FPS. Los elementos visuales son:
+    \begin{itemize}
+        \item \textbf{Fondo oscuro} para resaltar los globos.
+        \item \textbf{Globos} de 40,px de colores aleatorios (rojo, azul, amarillo, verde, magenta, cian), cada uno con una velocidad de caída aleatoria.
+        \item \textbf{Cursor del jugador} representado como un cuadrado blanco de 40,px.
+        \item \textbf{Mensaje de fin de juego} que muestra WIN'' o LOSE'' centrado en pantalla.
+    \end{itemize}
+
+    \textbf{Flujo del Juego}
+    \begin{itemize}
+        \item Al iniciar, se activan tres temporizadores: uno para actualizar la animación a 60,FPS, otro para generar globos periódicamente y un temporizador global de 10,segundos.
+        \item En cada actualización se leen los valores del joystick, se actualiza el cursor, los globos descienden y se verifican colisiones si el botón está presionado.
+        \item Si un globo escapa por la parte inferior, el juego termina en derrota.
+        \item Cuando se cumplen los 10,segundos, se determina si el jugador ganó o perdió según la cantidad de globos restantes.
+    \end{itemize}
+
+    \textbf{Función Pública}
+    El minijuego se ejecuta mediante la función:
+    \begin{verbatim}
+        def run_balloon_game():
+    \end{verbatim}
+    La cual bloquea la ejecución hasta que se cierre la ventana y devuelve el valor Win'' o Lose'' para ser usado por el programa principal.
+
+    \item \textbf{Reaction Game}
+    
+    Este minijuego consiste en medir la rapidez del jugador al presionar el botón correcto según el color indicado en pantalla. Está desarrollado con \textit{PyQt6} y puede utilizar botones físicos conectados a una Raspberry Pi o, si no hay hardware disponible, el teclado como alternativa. La interfaz gráfica muestra instrucciones, el color que el jugador debe presionar y un contador de puntaje actualizado después de cada ronda.
+    
+    \textbf{Hardware Utilizado}
+    \begin{itemize}
+        \item \textbf{Botones físicos (GPIO):}
+        Si la Raspberry Pi tiene acceso a los pines GPIO, se utiliza un botón negro (GPIO 27), uno azul (GPIO 18) y uno rojo (GPIO 17). Cada uno representa una respuesta válida según el color solicitado.
+        \item \textbf{Entrada alternativa por teclado:}
+        En dispositivos sin GPIO, las teclas \textbf{1}, \textbf{2} y \textbf{3} reemplazan a los botones negro, azul y rojo respectivamente.
+    \end{itemize}
+    
+    \textbf{Funcionamiento General}
+    El juego consta de 3 rondas. En cada una, el programa espera entre 2 y 5 segundos y luego muestra aleatoriamente uno de los colores: \textit{Black}, \textit{Blue} o \textit{Red}. Inmediatamente comienza a medir el tiempo de reacción del jugador desde que se muestra el color hasta que presiona el botón correspondiente. Cada ronda registra tanto el color elegido como el tiempo exacto de reacción del jugador.
+    
+    \textbf{Sistema de Puntaje}
+    El puntaje máximo total es 100 puntos, distribuidos entre las 3 rondas (33, 33 y 34 puntos).
+    El puntaje de cada ronda se determina de la siguiente forma:
+    \begin{itemize}
+        \item \textbf{Si el color presionado es incorrecto:} la ronda otorga 0 puntos.
+        \item \textbf{Si el color es correcto y el tiempo de reacción es menor o igual a 0.5 segundos:} se otorga el puntaje completo de la ronda.
+        \item \textbf{Si el tiempo supera los 0.5 segundos:}
+        cada 0.1 segundos adicionales se descuentan 3 puntos.
+    \end{itemize}
+    El puntaje mínimo por ronda es 0. Al finalizar las tres rondas, el juego suma los puntajes obtenidos y los muestra en pantalla junto con un detalle del tiempo de reacción de cada intento.
+    
+    \textbf{Interfaz Gráfica (PyQt6)}
+    La interfaz utiliza un \texttt{QVBoxLayout} para organizar los elementos principales:
+    \begin{itemize}
+        \item un texto con el color que debe presionar el jugador;
+        \item un área de resultados donde se muestran los tiempos y puntos de cada ronda;
+        \item un contador de puntaje total actualizado en tiempo real.
+    \end{itemize}
+    La ventana se mantiene simple para resaltar la instrucción principal y facilitar la reacción rápida del usuario.
+    
+    \textbf{Flujo del Juego}
+    \begin{itemize}
+        \item Tras un retraso inicial de 1 segundo, se inicia la primera ronda.
+        \item En cada ronda se genera un color al azar y se registra el tiempo de inicio.
+        \item Al presionar un botón físico o una tecla, se calcula el tiempo de reacción y se asigna el puntaje.
+        \item Si aún quedan rondas, se espera entre 2 y 5 segundos antes de mostrar el siguiente color.
+        \item Al completar las 3 rondas, se muestra el resumen de resultados y el puntaje final.
+    \end{itemize}
+    
+    \textbf{Función Pública}
+    El minijuego se ejecuta mediante:
+    \begin{verbatim}
+    def run_reaction_game():
+    \end{verbatim}
+    La función abre la ventana, espera a que termine el juego y retorna un diccionario con el resultado y el puntaje total obtenido.
+
+\end{itemize}
+
+\break
+Finalmente, la siguiente imagen muestra un esquema de los circuito realizado para los minijuegos:
+
+\begin{figure}[h!]
+	\centering
+	
+	\begin{subfigure}{0.45\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{Img/circuito_juego_globos_img.jpg}
+		\caption{Circuito Balloon Game}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}{0.45\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{Img/circuito_juego_botones_img.jpg}
+		\caption{Circuito Reaction Game}
+	\end{subfigure}
+	
+\end{figure}
+
+
+\break
+\subsubsection{Ítem 2}
+Para esta sección se realizó unicamente el codigo del jugador. Este código implementa la lógica del jugador dentro del sistema de comunicación con el host central, siguiendo los pasos solicitados en el enunciado del ítem 2. El flujo se basa en el uso de archivos de logging en formato JSON y en la transferencia remota mediante SSH. Todo el comportamiento está encapsulado dentro del archivo principal del jugador, el cual administra la conexión inicial, la espera del acuse de recibo (ACK) y la ejecución de los minijuegos. Su funcionamiento es el siguiente:
+\begin{enumerate}
+    \item \textbf{Estructura general del programa}
+
+        El código del jugador está organizado en varios componentes principales que trabajan de manera coordinada para establecer la comunicación con el host central, registrar eventos y ejecutar las rondas del juego. Para ello se emplean librerías estándar de Python como \texttt{os}, \texttt{json} y \texttt{time}, además de la librería \texttt{paramiko}, que permite conectarse al host mediante SSH y transferir archivos utilizando el protocolo SFTP.
+        \begin{figure}[h]
+            \centering
+            \includegraphics[width=0.6\textwidth]{Img/player1.png}
+            \caption{Librerias utilizadas para la actividad}
+            \label{fig:player1}
+        \end{figure}
+
+    \item \textbf{Registro inicial de conexión (“Join”).}  
+       
+        Al comenzar la ejecución, el jugador crea el archivo local \texttt{player\_events.log} dentro de la carpeta \texttt{logs/}. Allí escribe la primera entrada correspondiente a la etapa de Lobby, registrando su identificador (“PlayerID”) y la acción “Join”. Esta entrada se almacena en formato JSON, garantizando compatibilidad con el sistema de lectura del host.
+        \begin{figure}[h]
+            \centering
+            \includegraphics[width=0.6\textwidth]{Img/player2.png}
+            \caption{Función para creal el contenido del .log}
+            \label{fig:player2}
+        \end{figure}
+
+    \break
+    \item \textbf{Transferencia del archivo de logging al host.}  
+        
+        Después de registrar cada evento, el archivo de logging se envía automáticamente al host central utilizando el protocolo SSH. Para ello, el programa establece una conexión empleando la librería \texttt{paramiko}, abre un canal SFTP y transfiere el archivo al directorio remoto definido por el profesor. Si la carpeta no existe, el jugador intenta crearla antes de efectuar la carga. Con esto, el host recibe constantemente los eventos del jugador conforme ocurren.
+        \begin{figure}[h]
+            \centering
+            \includegraphics[width=0.6\textwidth]{Img/player3.png}
+            \caption{Función para crear la conexión entre el jugador y el host}
+            \label{fig:player3}
+        \end{figure}
+
+    \break
+    \item \textbf{Recepción del acuse de recibo desde el host (“Accepted”).}  
+        
+        Para recibir la confirmación del host, el jugador revisa periódicamente el archivo remoto \\ \texttt{game\_status.log}. Cada segundo, el programa abre dicho archivo mediante SSH, lee la última línea y la interpreta como un objeto JSON. Cuando detecta un evento cuyo campo \texttt{Action} es “Accepted”, el jugador reconoce que el host ha confirmado su incorporación a la partida. Este mecanismo implementa directamente la estrategia de acuse de recibo (ACK) requerida en el enunciado.
+        \begin{figure}[h!]
+        \centering
+
+        \begin{subfigure}{0.45\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{Img/player4.png}
+            \label{player4}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.45\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{Img/player5.png}
+            \label{player5}
+        \end{subfigure}
+
+        \caption{Función para esperar la respuesta del host}
+        \end{figure}
+
+    \item \textbf{Actualización del estado a “Ready”.}  
+        
+        Tras recibir el mensaje de aceptación, el jugador continúa con el flujo normal del juego registrando sus estados durante cada ronda. Aunque en esta versión el mensaje explícito “Ready” no se genera inmediatamente después del ACK, el sistema mantiene el mismo formato de registro, incorporando en cada etapa la acción realizada, el identificador del jugador y el resultado asociado. Cada uno de estos eventos se sincroniza nuevamente con el host mediante SSH.
+
+    \break
+    \item \textbf{Ejecución de las rondas y de los minijuegos.}  
+        
+        Luego de ser aceptado por el host, el jugador ejecuta tres rondas consecutivas. En cada una de ellas selecciona aleatoriamente uno de los cuatro minijuegos disponibles: \textit{MemoryGame}, \textit{EquationGame}, \textit{ReactionGame} o \textit{BalloonGame}. Antes de iniciar cada minijuego, el programa registra un evento de tipo “Start”, y al finalizarlo registra un evento “End” indicando si el jugador obtuvo un resultado de “Win” o “Lose”. Como en las etapas anteriores, cada evento queda almacenado en el archivo local y es enviado inmediatamente al host central.
+        \begin{figure}[h!]
+        \centering
+
+        \begin{subfigure}{0.45\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{Img/player6.png}
+            \label{player6}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.45\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{Img/player7.png}
+            \label{player7}
+        \end{subfigure}
+
+        \caption{Función principal}
+        \end{figure}
+
+\end{enumerate}
+
+
+
+
+%#######################################################
+\break
+\section{Actividad n°2: Programando una Pokédex}
+Esta segunda actividad consiste en diseñar e implementar una interfaz gráfica interactiva
+que simule una Pokédex: un dispositivo inteligente capaz de mostrar información sobre distintos
+Pokémon.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\textwidth]{Img/Pokedex.png}
+    \label{fig:pokedex}
+\end{figure}
+
+\subsection{Ítem 1}
+Para empezar a crear su Pokédex, su primer objetivo será diseñar una interfaz gráfica en
+Raspberry Pi que sea capaz de interactuar con un módulo LED (KY-009, KY-011, KY-016 o KY-
+029) y los siguientes widgets de PyQt:
+\begin{enumerate}
+    \item[\textbullet] QPushButton - QPushButton Class | Qt Widgets 6.5.3
+    \item[\textbullet] QLabel - QPushButton Class | Qt Widgets 6.5.3
+    \item[\textbullet] QGroupBox - QGroupBox Class | Qt Widgets | Qt 6.10.0
+\end{enumerate}
+Luego, construyan su interfaz gráfica inspirándose en el diseño original de la Pokédex,
+considerando los siguientes puntos para darle funcionalidad desde un código Python:
+
+\begin{enumerate}
+    \item Definir la estructura de datos que contendrá la información de los Pokémon (al menos 10 diferentes). Cada registro deberá ser un archivo tipo. json o .txt que contenga al menos los siguientes datos:
+    \begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\textwidth]{Img/code4.png}
+    \label{fig:code4}
+    \end{figure}
+
+    \item Uno QLabel deberá usarse para mostrar la imagen del Pokémon actual, la cual debe cargarse con ayuda del método setPixmap().
+    
+    \item Otro 2 QLabels deberán mostrar la información del tipo y descripción del Pokémon actual, usando para ello el método setText().
+
+    \item Los QPushButtons deberán cambiar dinámicamente la información mostrada en la interfaz respecto del Pokémon actual. El primero será para avanzar al Pokémon siguiente, el segundo será para retroceder al anterior, y el último será para elegir un Pokémon aleatorio.
+
+    \item Programen el LED para que cambie de color según el tipo de Pokémon actual (por ejemplo, color azul para un Pokémon tipo agua, color rojo para un Pokémon tipo fuego, etc.)
+\end{enumerate}
+
+%#######################
+
+\subsection{Solución}
+\subsubsection{Diseño}
+El diseño principal de la Pokédex fue realizado usando Qt Designer. Para su construcción se utilizaron los siguientes elementos:
+\begin{itemize}
+    \item 4 QPushButton
+    \item 8 QLabel
+    \item 1 QstatusBar
+\end{itemize}
+De estos elementos, dos QLabel están siendo utilizados como imágenes, y uno de ellos corresponde a un LED virtual que cambia de color dependiendo del tipo del Pokémon. El diseño final en Qt Designer puede ser visualizado en la imagen \ref{fig:pok1}.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\textwidth]{Img/Pok1.png}
+    \caption{Diseño en Qt Designer}
+    \label{fig:pok1}
+\end{figure}
+
+\break
+\subsection{Funcionamiento}
+Una vez importado el diseño a python, se crearon tres diferentes codigos llamados \textbf{\texttt{main.py}}, \\
+\textbf{\texttt{pokedex$\_$ui.py}} y \textbf{\texttt{pokedex.py}}.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\textwidth]{Img/Pok2.png}
+    \caption{Distribución de los códigos}
+    \label{fig:pok2}
+\end{figure}
+estos códigos funcionan de la siguiente forma:
+\begin{itemize}
+    \item \textbf{pokedex$\_$ui.py}
+    
+    Código sujeto al diseño realizado en Qt Designer, es el resultado de transformar el diseño gráfico en formato phyton. Esta pestaña será utilizada como la página principal de la interfaz.
+
+    \item \textbf{pokedex.py}
+    Código encargado de asignar funciones a los elementos utilizados en el diseño para modificar la pokedex y almacenar las características de cada pokemon. Dichos elementos interactúan de la siguiente manera:
+    \begin{itemize}
+        \item Boton superior: Elije un pokemon al azar 
+        \item Boton inferior: Regresa a la página principales
+        \item Boton izquierdo: Vuelve al pokemon anterior
+        \item Boton derecho: Avanza al siguiente pokemon
+        \item LED: Circulo en la esquina inferior derecha de la pokedex. Cambia de color dependiendo del tipo del pokemon.
+    \end{itemize}
+    
+    \item \textbf{main.py}
+    Código principal de la interfaz. Este es el código que debe ejecutarse para iniciar la aplicación. Al hacerlo, la interfaz abre la página principal. Para cambiar a la Pokédex, se debe presionar cualquiera de los cuatro botones disponibles
+\end{itemize}
+
+\break
+\subsection{Resultado}
+Finalmente, la interfaz gráfica final puede observarse en la imagen 9.
+\begin{figure}[h!]
+    \centering
+
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Img/pok3.png}
+        \caption{Pantalla principal}
+        \label{pok3}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Img/pok4.png}
+        \caption{Pokedex}
+        \label{pok4}
+    \end{subfigure}
+
+\end{figure}
+
+
+%#######################################################

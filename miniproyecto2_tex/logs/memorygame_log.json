@@ -1,0 +1,112 @@
+{"timestamp": "2025-11-07T12:30:41.931239", "player_id": "P001", "game_name": "MemoryGame", "event_type": "GameStart", "result": "Started", "extra_data": {"initial_level": 4}}
+{"timestamp": "2025-11-07T12:30:41.932239", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundStart", "result": "ShownSequence", "extra_data": {"round": 1, "sequence": "Z3T0"}}
+{"timestamp": "2025-11-07T12:30:45.468261", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundEnd", "result": "Incorrect", "extra_data": {"round": 1}}
+{"timestamp": "2025-11-07T12:30:45.469302", "player_id": "P001", "game_name": "MemoryGame", "event_type": "GameEnd", "result": "Finished", "extra_data": {"final_round": 0, "final_points": 0}}
+{"timestamp": "2025-11-07T12:30:48.083249", "player_id": "P001", "game_name": "MemoryGame", "event_type": "GameStart", "result": "Started", "extra_data": {"initial_level": 4}}
+{"timestamp": "2025-11-07T12:30:48.084249", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundStart", "result": "ShownSequence", "extra_data": {"round": 1, "sequence": "EQYM"}}
+{"timestamp": "2025-11-07T12:30:49.961253", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundEnd", "result": "Correct", "extra_data": {"round": 1, "points": 20}}
+{"timestamp": "2025-11-07T12:30:49.962253", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundStart", "result": "ShownSequence", "extra_data": {"round": 2, "sequence": "EQYMX"}}
+{"timestamp": "2025-11-07T12:30:52.591274", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundEnd", "result": "Correct", "extra_data": {"round": 2, "points": 40}}
+{"timestamp": "2025-11-07T12:30:52.592275", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundStart", "result": "ShownSequence", "extra_data": {"round": 3, "sequence": "EQYMXW"}}
+{"timestamp": "2025-11-07T12:30:54.486263", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundEnd", "result": "Correct", "extra_data": {"round": 3, "points": 60}}
+{"timestamp": "2025-11-07T12:30:54.486263", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundStart", "result": "ShownSequence", "extra_data": {"round": 4, "sequence": "EQYMXWN"}}
+{"timestamp": "2025-11-07T12:30:58.368265", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundEnd", "result": "Correct", "extra_data": {"round": 4, "points": 80}}
+{"timestamp": "2025-11-07T12:30:58.368265", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundStart", "result": "ShownSequence", "extra_data": {"round": 5, "sequence": "EQYMXWNP"}}
+{"timestamp": "2025-11-07T12:31:02.111270", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundEnd", "result": "Correct", "extra_data": {"round": 5, "points": 100}}
+{"timestamp": "2025-11-07T12:31:02.111270", "player_id": "P001", "game_name": "MemoryGame", "event_type": "GameEnd", "result": "Finished", "extra_data": {"final_round": 5, "final_points": 100}}
+{"timestamp": "2025-11-12T22:39:46.618194", "player_id": "P001", "game_name": "MemoryGame", "event_type": "GameStart", "result": "Started", "extra_data": {"initial_level": 4}}
+{"timestamp": "2025-11-12T22:39:46.619440", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundStart", "result": "ShownSequence", "extra_data": {"round": 1, "sequence": "XOOI"}}
+{"timestamp": "2025-11-12T22:39:48.889862", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundEnd", "result": "Correct", "extra_data": {"round": 1, "points": 20}}
+{"timestamp": "2025-11-12T22:39:48.890645", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundStart", "result": "ShownSequence", "extra_data": {"round": 2, "sequence": "XOOIS"}}
+{"timestamp": "2025-11-12T22:40:01.639798", "player_id": "P001", "game_name": "MemoryGame", "event_type": "Timer", "result": "Expired", "extra_data": {"points": 20}}
+{"timestamp": "2025-11-12T22:40:01.640812", "player_id": "P001", "game_name": "MemoryGame", "event_type": "GameEnd", "result": "Finished", "extra_data": {"final_round": 1, "final_points": 20}}
+{"timestamp": "2025-11-13T15:23:44.232455", "player_id": "P001", "game_name": "MemoryGame", "event_type": "GameStart", "result": "Started", "extra_data": {"initial_level": 4}}
+{"timestamp": "2025-11-13T15:23:44.233283", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundStart", "result": "ShownSequence", "extra_data": {"round": 1, "sequence": "GFGM"}}
+{"timestamp": "2025-11-13T15:23:47.293367", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundEnd", "result": "Correct", "extra_data": {"round": 1, "points": 20}}
+{"timestamp": "2025-11-13T15:23:47.294190", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundStart", "result": "ShownSequence", "extra_data": {"round": 2, "sequence": "GFGMZ"}}
+{"timestamp": "2025-11-13T15:23:47.995773", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundEnd", "result": "Incorrect", "extra_data": {"round": 2}}
+{"timestamp": "2025-11-13T15:23:47.996553", "player_id": "P001", "game_name": "MemoryGame", "event_type": "GameEnd", "result": "Finished", "extra_data": {"final_round": 1, "final_points": 20}}
+{"timestamp": "2025-11-13T15:23:50.613004", "player_id": "P001", "game_name": "MemoryGame", "event_type": "GameStart", "result": "Started", "extra_data": {"initial_level": 4}}
+{"timestamp": "2025-11-13T15:23:50.613815", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundStart", "result": "ShownSequence", "extra_data": {"round": 1, "sequence": "3VEB"}}
+{"timestamp": "2025-11-13T15:23:53.127688", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundEnd", "result": "Correct", "extra_data": {"round": 1, "points": 20}}
+{"timestamp": "2025-11-13T15:23:53.128569", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundStart", "result": "ShownSequence", "extra_data": {"round": 2, "sequence": "3VEBN"}}
+{"timestamp": "2025-11-13T15:23:53.667454", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundEnd", "result": "Incorrect", "extra_data": {"round": 2}}
+{"timestamp": "2025-11-13T15:23:53.668190", "player_id": "P001", "game_name": "MemoryGame", "event_type": "GameEnd", "result": "Finished", "extra_data": {"final_round": 1, "final_points": 20}}
+{"timestamp": "2025-11-13T15:23:55.163196", "player_id": "P001", "game_name": "MemoryGame", "event_type": "GameStart", "result": "Started", "extra_data": {"initial_level": 4}}
+{"timestamp": "2025-11-13T15:23:55.163992", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundStart", "result": "ShownSequence", "extra_data": {"round": 1, "sequence": "21O7"}}
+{"timestamp": "2025-11-13T15:23:55.848200", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundEnd", "result": "Incorrect", "extra_data": {"round": 1}}
+{"timestamp": "2025-11-13T15:23:55.848906", "player_id": "P001", "game_name": "MemoryGame", "event_type": "GameEnd", "result": "Finished", "extra_data": {"final_round": 0, "final_points": 0}}
+{"timestamp": "2025-11-13T15:23:56.945425", "player_id": "P001", "game_name": "MemoryGame", "event_type": "GameStart", "result": "Started", "extra_data": {"initial_level": 4}}
+{"timestamp": "2025-11-13T15:23:56.946165", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundStart", "result": "ShownSequence", "extra_data": {"round": 1, "sequence": "PLR9"}}
+{"timestamp": "2025-11-13T15:23:56.980217", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundEnd", "result": "Incorrect", "extra_data": {"round": 1}}
+{"timestamp": "2025-11-13T15:23:56.980891", "player_id": "P001", "game_name": "MemoryGame", "event_type": "GameEnd", "result": "Finished", "extra_data": {"final_round": 0, "final_points": 0}}
+{"timestamp": "2025-11-13T15:23:57.545801", "player_id": "P001", "game_name": "MemoryGame", "event_type": "GameStart", "result": "Started", "extra_data": {"initial_level": 4}}
+{"timestamp": "2025-11-13T15:23:57.546545", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundStart", "result": "ShownSequence", "extra_data": {"round": 1, "sequence": "YW5M"}}
+{"timestamp": "2025-11-13T15:23:57.561325", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundEnd", "result": "Incorrect", "extra_data": {"round": 1}}
+{"timestamp": "2025-11-13T15:23:57.561897", "player_id": "P001", "game_name": "MemoryGame", "event_type": "GameEnd", "result": "Finished", "extra_data": {"final_round": 0, "final_points": 0}}
+{"timestamp": "2025-11-13T15:23:58.111860", "player_id": "P001", "game_name": "MemoryGame", "event_type": "GameStart", "result": "Started", "extra_data": {"initial_level": 4}}
+{"timestamp": "2025-11-13T15:23:58.112450", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundStart", "result": "ShownSequence", "extra_data": {"round": 1, "sequence": "RPFO"}}
+{"timestamp": "2025-11-13T15:23:58.376493", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundEnd", "result": "Incorrect", "extra_data": {"round": 1}}
+{"timestamp": "2025-11-13T15:23:58.377087", "player_id": "P001", "game_name": "MemoryGame", "event_type": "GameEnd", "result": "Finished", "extra_data": {"final_round": 0, "final_points": 0}}
+{"timestamp": "2025-11-13T15:23:59.606092", "player_id": "P001", "game_name": "MemoryGame", "event_type": "GameStart", "result": "Started", "extra_data": {"initial_level": 4}}
+{"timestamp": "2025-11-13T15:23:59.606742", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundStart", "result": "ShownSequence", "extra_data": {"round": 1, "sequence": "94HG"}}
+{"timestamp": "2025-11-13T15:23:59.784019", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundEnd", "result": "Incorrect", "extra_data": {"round": 1}}
+{"timestamp": "2025-11-13T15:23:59.784654", "player_id": "P001", "game_name": "MemoryGame", "event_type": "GameEnd", "result": "Finished", "extra_data": {"final_round": 0, "final_points": 0}}
+{"timestamp": "2025-11-13T15:24:01.796784", "player_id": "P001", "game_name": "MemoryGame", "event_type": "GameStart", "result": "Started", "extra_data": {"initial_level": 4}}
+{"timestamp": "2025-11-13T15:24:01.797416", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundStart", "result": "ShownSequence", "extra_data": {"round": 1, "sequence": "EJ4M"}}
+{"timestamp": "2025-11-13T15:24:02.111255", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundEnd", "result": "Incorrect", "extra_data": {"round": 1}}
+{"timestamp": "2025-11-13T15:24:02.111894", "player_id": "P001", "game_name": "MemoryGame", "event_type": "GameEnd", "result": "Finished", "extra_data": {"final_round": 0, "final_points": 0}}
+{"timestamp": "2025-11-13T15:24:04.479640", "player_id": "P001", "game_name": "MemoryGame", "event_type": "GameStart", "result": "Started", "extra_data": {"initial_level": 4}}
+{"timestamp": "2025-11-13T15:24:04.480213", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundStart", "result": "ShownSequence", "extra_data": {"round": 1, "sequence": "H2WX"}}
+{"timestamp": "2025-11-13T15:24:04.717121", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundEnd", "result": "Incorrect", "extra_data": {"round": 1}}
+{"timestamp": "2025-11-13T15:24:04.717699", "player_id": "P001", "game_name": "MemoryGame", "event_type": "GameEnd", "result": "Finished", "extra_data": {"final_round": 0, "final_points": 0}}
+{"timestamp": "2025-11-13T15:26:59.405908", "player_id": "P001", "game_name": "MemoryGame", "event_type": "GameStart", "result": "Started", "extra_data": {"initial_level": 4}}
+{"timestamp": "2025-11-13T15:26:59.406700", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundStart", "result": "ShownSequence", "extra_data": {"round": 1, "sequence": "0E0W"}}
+{"timestamp": "2025-11-13T15:27:02.262186", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundEnd", "result": "Incorrect", "extra_data": {"round": 1}}
+{"timestamp": "2025-11-13T15:27:02.263028", "player_id": "P001", "game_name": "MemoryGame", "event_type": "GameEnd", "result": "Finished", "extra_data": {"final_round": 0, "final_points": 0}}
+{"timestamp": "2025-11-13T15:27:06.822009", "player_id": "P001", "game_name": "MemoryGame", "event_type": "GameStart", "result": "Started", "extra_data": {"initial_level": 4}}
+{"timestamp": "2025-11-13T15:27:06.822842", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundStart", "result": "ShownSequence", "extra_data": {"round": 1, "sequence": "FLZ4"}}
+{"timestamp": "2025-11-13T15:27:07.197816", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundEnd", "result": "Incorrect", "extra_data": {"round": 1}}
+{"timestamp": "2025-11-13T15:27:07.198454", "player_id": "P001", "game_name": "MemoryGame", "event_type": "GameEnd", "result": "Finished", "extra_data": {"final_round": 0, "final_points": 0}}
+{"timestamp": "2025-11-13T15:27:07.989078", "player_id": "P001", "game_name": "MemoryGame", "event_type": "GameStart", "result": "Started", "extra_data": {"initial_level": 4}}
+{"timestamp": "2025-11-13T15:27:07.989723", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundStart", "result": "ShownSequence", "extra_data": {"round": 1, "sequence": "ONO7"}}
+{"timestamp": "2025-11-13T15:27:08.211754", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundEnd", "result": "Incorrect", "extra_data": {"round": 1}}
+{"timestamp": "2025-11-13T15:27:08.212424", "player_id": "P001", "game_name": "MemoryGame", "event_type": "GameEnd", "result": "Finished", "extra_data": {"final_round": 0, "final_points": 0}}
+{"timestamp": "2025-11-13T15:27:08.707299", "player_id": "P001", "game_name": "MemoryGame", "event_type": "GameStart", "result": "Started", "extra_data": {"initial_level": 4}}
+{"timestamp": "2025-11-13T15:27:08.707890", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundStart", "result": "ShownSequence", "extra_data": {"round": 1, "sequence": "CREC"}}
+{"timestamp": "2025-11-13T15:27:08.773151", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundEnd", "result": "Incorrect", "extra_data": {"round": 1}}
+{"timestamp": "2025-11-13T15:27:08.773762", "player_id": "P001", "game_name": "MemoryGame", "event_type": "GameEnd", "result": "Finished", "extra_data": {"final_round": 0, "final_points": 0}}
+{"timestamp": "2025-11-13T15:27:09.288687", "player_id": "P001", "game_name": "MemoryGame", "event_type": "GameStart", "result": "Started", "extra_data": {"initial_level": 4}}
+{"timestamp": "2025-11-13T15:27:09.289271", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundStart", "result": "ShownSequence", "extra_data": {"round": 1, "sequence": "Z5I3"}}
+{"timestamp": "2025-11-13T15:27:09.300209", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundEnd", "result": "Incorrect", "extra_data": {"round": 1}}
+{"timestamp": "2025-11-13T15:27:09.300730", "player_id": "P001", "game_name": "MemoryGame", "event_type": "GameEnd", "result": "Finished", "extra_data": {"final_round": 0, "final_points": 0}}
+{"timestamp": "2025-11-13T15:27:09.754627", "player_id": "P001", "game_name": "MemoryGame", "event_type": "GameStart", "result": "Started", "extra_data": {"initial_level": 4}}
+{"timestamp": "2025-11-13T15:27:09.755224", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundStart", "result": "ShownSequence", "extra_data": {"round": 1, "sequence": "374Q"}}
+{"timestamp": "2025-11-13T15:27:09.875934", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundEnd", "result": "Incorrect", "extra_data": {"round": 1}}
+{"timestamp": "2025-11-13T15:27:09.876512", "player_id": "P001", "game_name": "MemoryGame", "event_type": "GameEnd", "result": "Finished", "extra_data": {"final_round": 0, "final_points": 0}}
+{"timestamp": "2025-11-13T15:27:10.405244", "player_id": "P001", "game_name": "MemoryGame", "event_type": "GameStart", "result": "Started", "extra_data": {"initial_level": 4}}
+{"timestamp": "2025-11-13T15:27:10.405829", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundStart", "result": "ShownSequence", "extra_data": {"round": 1, "sequence": "DVGZ"}}
+{"timestamp": "2025-11-13T15:27:10.447894", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundEnd", "result": "Incorrect", "extra_data": {"round": 1}}
+{"timestamp": "2025-11-13T15:27:10.448584", "player_id": "P001", "game_name": "MemoryGame", "event_type": "GameEnd", "result": "Finished", "extra_data": {"final_round": 0, "final_points": 0}}
+{"timestamp": "2025-11-13T15:27:11.006308", "player_id": "P001", "game_name": "MemoryGame", "event_type": "GameStart", "result": "Started", "extra_data": {"initial_level": 4}}
+{"timestamp": "2025-11-13T15:27:11.006889", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundStart", "result": "ShownSequence", "extra_data": {"round": 1, "sequence": "UK4X"}}
+{"timestamp": "2025-11-13T15:27:11.033343", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundEnd", "result": "Incorrect", "extra_data": {"round": 1}}
+{"timestamp": "2025-11-13T15:27:11.033919", "player_id": "P001", "game_name": "MemoryGame", "event_type": "GameEnd", "result": "Finished", "extra_data": {"final_round": 0, "final_points": 0}}
+{"timestamp": "2025-11-13T15:27:12.239751", "player_id": "P001", "game_name": "MemoryGame", "event_type": "GameStart", "result": "Started", "extra_data": {"initial_level": 4}}
+{"timestamp": "2025-11-13T15:27:12.240379", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundStart", "result": "ShownSequence", "extra_data": {"round": 1, "sequence": "EL8T"}}
+{"timestamp": "2025-11-13T15:27:12.311721", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundEnd", "result": "Incorrect", "extra_data": {"round": 1}}
+{"timestamp": "2025-11-13T15:27:12.312289", "player_id": "P001", "game_name": "MemoryGame", "event_type": "GameEnd", "result": "Finished", "extra_data": {"final_round": 0, "final_points": 0}}
+{"timestamp": "2025-11-13T15:27:14.056143", "player_id": "P001", "game_name": "MemoryGame", "event_type": "GameStart", "result": "Started", "extra_data": {"initial_level": 4}}
+{"timestamp": "2025-11-13T15:27:14.056743", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundStart", "result": "ShownSequence", "extra_data": {"round": 1, "sequence": "XRCV"}}
+{"timestamp": "2025-11-13T15:27:15.899304", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundEnd", "result": "Correct", "extra_data": {"round": 1, "points": 20}}
+{"timestamp": "2025-11-13T15:27:15.899974", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundStart", "result": "ShownSequence", "extra_data": {"round": 2, "sequence": "XRCVP"}}
+{"timestamp": "2025-11-13T15:27:17.382157", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundEnd", "result": "Incorrect", "extra_data": {"round": 2}}
+{"timestamp": "2025-11-13T15:27:17.382752", "player_id": "P001", "game_name": "MemoryGame", "event_type": "GameEnd", "result": "Finished", "extra_data": {"final_round": 1, "final_points": 20}}
+{"timestamp": "2025-11-13T15:27:21.257779", "player_id": "P001", "game_name": "MemoryGame", "event_type": "GameStart", "result": "Started", "extra_data": {"initial_level": 4}}
+{"timestamp": "2025-11-13T15:27:21.258432", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundStart", "result": "ShownSequence", "extra_data": {"round": 1, "sequence": "7QH6"}}
+{"timestamp": "2025-11-13T15:27:21.717522", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundEnd", "result": "Incorrect", "extra_data": {"round": 1}}
+{"timestamp": "2025-11-13T15:27:21.718130", "player_id": "P001", "game_name": "MemoryGame", "event_type": "GameEnd", "result": "Finished", "extra_data": {"final_round": 0, "final_points": 0}}
+{"timestamp": "2025-11-13T15:27:24.595365", "player_id": "P001", "game_name": "MemoryGame", "event_type": "GameStart", "result": "Started", "extra_data": {"initial_level": 4}}
+{"timestamp": "2025-11-13T15:27:24.596050", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundStart", "result": "ShownSequence", "extra_data": {"round": 1, "sequence": "W5FG"}}
+{"timestamp": "2025-11-13T15:27:25.255355", "player_id": "P001", "game_name": "MemoryGame", "event_type": "RoundEnd", "result": "Incorrect", "extra_data": {"round": 1}}
+{"timestamp": "2025-11-13T15:27:25.255999", "player_id": "P001", "game_name": "MemoryGame", "event_type": "GameEnd", "result": "Finished", "extra_data": {"final_round": 0, "final_points": 0}}
